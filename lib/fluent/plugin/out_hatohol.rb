@@ -46,6 +46,8 @@ module Fluent
       @connection.start
       @channel = @connection.create_channel
       @queue = @channel.queue(@queue_name)
+
+      exchangeProfile
     end
 
     def shutdown
@@ -82,6 +84,20 @@ module Fluent
           "severity"  => build_severity(record),
         }
       }
+    end
+
+    private
+    def exchangeProfile
+      msg = {
+        "jsonrpc" => "2.0",
+        "id"      => 1,
+        "method"  => "exchangeProfile",
+        "params"  => {
+          "procedures" => [],
+          "name"       => "Fluentd Plugin"
+        }
+      }
+      @queue.publish(JSON.generate(msg), :content_type => "application/json")
     end
 
     def build_id(time)
