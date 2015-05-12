@@ -19,7 +19,7 @@ require "bunny"
 
 module Fluent
   class HatoholOutput < BufferedOutput
-    Plugin.register_output("hatohol", self)
+    Plugin.register_output("hatohol2", self)
 
     config_param :url, :string, :default => nil
     config_param :queue_name, :string
