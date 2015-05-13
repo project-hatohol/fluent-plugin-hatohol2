@@ -47,7 +47,7 @@ module Fluent
       @channel = @connection.create_channel
       @queue = @channel.queue(@queue_name)
 
-      exchangeProfile
+      exchange_profile
     end
 
     def shutdown
@@ -87,7 +87,7 @@ module Fluent
     end
 
     private
-    def exchangeProfile
+    def exchange_profile
       msg = {
         "jsonrpc" => "2.0",
         "id"      => 1,
