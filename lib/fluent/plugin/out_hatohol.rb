@@ -61,7 +61,7 @@ module Fluent
 
     def write(chunk)
       chunk.msgpack_each do |tag, time, record|
-        @queue.publish(JSON.generate(build_message(tag, time, record)),
+        @queue.publish(JSON.generate(build_events(tag, time, record)),
                        :content_type => "application/json")
       end
     end
@@ -73,17 +73,35 @@ module Fluent
       end
     end
 
-    def build_message(tag, time, record)
+    def build_events(tag, time, record)
       {
-        "type" => "event",
-        "body" => {
-          "id"        => build_id(time),
-          "timestamp" => Time.at(time).iso8601,
-          "hostName"  => record[@host_key],
-          "content"   => build_content(tag, time, record),
-          "severity"  => build_severity(record),
+        "jsonrpc" => "2.0",
+        "id"      => 1,
+        "method"  => "updateEvents",
+        "params"  => {
+          "events" => [build_event(tag, time, record)]
         }
       }
+    end
+
+    private
+    def build_event(tag, time, record)
+      {
+        "eventId"   => generate_event_id,
+        "time"      => Time.at(time).getutc.strftime("%Y%m%d%H%M%S"),
+        "type"      => "BAD", # TODO is this OK ?
+        #"status"    => "" # This field will be optional
+        "severity"  => build_severity(record),
+        "hostId"    => record[@host_key],
+        "hostName"  => record[@host_key],
+        "brief"     => build_content(tag, time, record),
+        "extendedInfo" => "",
+      }
+    end
+
+    private
+    def generate_event_id
+      1 # TODO: generate proper ID
     end
 
     private
