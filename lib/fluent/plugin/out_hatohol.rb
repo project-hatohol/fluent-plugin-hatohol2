@@ -28,7 +28,7 @@ module Fluent
     config_param :tls_ca_certificates, :array, :default => []
     config_param :host_key, :string, :default => "host"
     config_param :content_format, :string, :default => "%{message}"
-    config_param :severity_format, :string, :default => "error"
+    config_param :severity_format, :string, :default => "ERROR"
 
     def configure(conf)
       super
