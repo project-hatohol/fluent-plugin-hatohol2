@@ -36,18 +36,18 @@ class BuildMessageTest < Test::Unit::TestCase
     plugin
   end
 
-  def call_build_message(config, tag, time, record)
-    create_plugin(config).send(:build_message, tag, time, record)
+  def call_build_events(config, tag, time, record)
+    create_plugin(config).send(:build_events, tag, time, record)
   end
 
   sub_test_case("host") do
     def build_host(config, record)
       record["message"] = "Message"
-      message = call_build_message(config,
+      message = call_build_events(config,
                                    "hatohol.syslog.messages",
                                    Fluent::Engine.now,
                                    record)
-      message["body"]["hostName"]
+      message["params"]["events"][0]["hostName"]
     end
 
     def test_default
@@ -67,16 +67,16 @@ class BuildMessageTest < Test::Unit::TestCase
   sub_test_case("content") do
     def build_content(config, record)
       record["host"] ||= "www.example.com"
-      message = call_build_message(config,
+      message = call_build_events(config,
                                    "hatohol.syslog.messages",
                                    Fluent::Engine.now,
                                    record)
-      message["body"]["content"]
+      message["params"]["events"][0]["brief"]
     end
 
     def test_default
       assert_equal("Message",
-                   build_content({}, {"message" => "Message"}))
+                   build_content({}, {"message"=> "Message"}))
     end
 
     def test_multiple
@@ -95,15 +95,15 @@ class BuildMessageTest < Test::Unit::TestCase
     def build_severity(config, record)
       record["host"] ||= "www.example.com"
       record["message"] ||= "Error!"
-      message = call_build_message(config,
+      message = call_build_events(config,
                                    "hatohol.syslog.messages",
                                    Fluent::Engine.now,
                                    record)
-      message["body"]["severity"]
+      message["params"]["events"][0]["severity"]
     end
 
     def test_default
-      assert_equal("error",
+      assert_equal("ERROR",
                    build_severity({}, {}))
     end
 
