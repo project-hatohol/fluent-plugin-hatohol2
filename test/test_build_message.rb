@@ -40,6 +40,21 @@ class BuildMessageTest < Test::Unit::TestCase
     create_plugin(config).send(:build_events, tag, time, record)
   end
 
+  sub_test_case("type") do
+    def build_type(config, record)
+      record["message"] = "Message"
+      message = call_build_events(config,
+                                  "hatohol.syslog.messages",
+                                  Fluent::Engine.now,
+                                  record)
+      message["params"]["events"][0]["type"]
+    end
+
+    def test_default
+      assert_equal("BAD", build_type({}, {}))
+    end
+  end
+
   sub_test_case("host") do
     def build_host(config, record)
       record["message"] = "Message"

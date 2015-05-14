@@ -89,7 +89,7 @@ module Fluent
       {
         "eventId"   => generate_event_id,
         "time"      => Time.at(time).getutc.strftime("%Y%m%d%H%M%S"),
-        "type"      => "BAD", # TODO is this OK ?
+        "type"      => build_type,
         #"status"    => "" # This field will be optional
         "severity"  => build_severity(record),
         "hostId"    => record[@host_key],
@@ -121,6 +121,11 @@ module Fluent
     def build_id(time)
       now = Time.now
       now.to_i * 1_000_000_000 + now.nsec
+    end
+
+    def build_type
+      # TODO: is this OK ?
+      "BAD"
     end
 
     def build_content(tag, time, record)
