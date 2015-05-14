@@ -64,7 +64,7 @@ class BuildMessageTest < Test::Unit::TestCase
     end
   end
 
-  sub_test_case("content") do
+  sub_test_case("brief") do
     def build_content(config, record)
       record["host"] ||= "www.example.com"
       message = call_build_events(config,
