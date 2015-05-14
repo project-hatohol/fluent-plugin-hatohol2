@@ -88,7 +88,7 @@ module Fluent
     def build_event(tag, time, record)
       {
         "eventId"   => generate_event_id,
-        "time"      => Time.at(time).getutc.strftime("%Y%m%d%H%M%S"),
+        "time"      => build_time(time),
         "type"      => build_type,
         #"status"    => "" # This field will be optional
         "severity"  => build_severity(record),
@@ -126,6 +126,10 @@ module Fluent
     def build_type
       # TODO: is this OK ?
       "BAD"
+    end
+
+    def build_time(time)
+      Time.at(time).getutc.strftime("%Y%m%d%H%M%S")
     end
 
     def build_content(tag, time, record)

@@ -40,6 +40,22 @@ class BuildMessageTest < Test::Unit::TestCase
     create_plugin(config).send(:build_events, tag, time, record)
   end
 
+  sub_test_case("time") do
+    def build_time(config, time, record)
+      record["message"] = "Message"
+      message = call_build_events(config,
+                                  "hatohol.syslog.messages",
+                                  time,
+                                  record)
+      message["params"]["events"][0]["time"]
+    end
+
+    def test_time
+      time = Time.utc(2015, 5, 14, 12, 50, 8)
+      assert_equal("20150514125008", build_time({}, time, {}))
+    end
+  end
+
   sub_test_case("type") do
     def build_type(config, record)
       record["message"] = "Message"
