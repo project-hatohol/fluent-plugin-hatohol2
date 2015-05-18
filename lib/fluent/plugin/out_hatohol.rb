@@ -99,6 +99,13 @@ module Fluent
       }
     end
 
+    def build_base_msg
+      {
+        "jsonrpc" => "2.0",
+        "id"      => rand(0x80000000),
+      }
+    end
+
     private
     def generate_event_id
       1 # TODO: generate proper ID

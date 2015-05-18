@@ -40,6 +40,23 @@ class BuildMessageTest < Test::Unit::TestCase
     create_plugin(config).send(:build_events, tag, time, record)
   end
 
+  sub_test_case("base_msg") do
+
+    def call_build_base_msg
+      create_plugin({}).send(:build_base_msg)
+    end
+
+    def test_jsonrpc
+      assert_equal("2.0", call_build_base_msg["jsonrpc"])
+    end
+
+    def test_id_is_random
+      id0 = call_build_base_msg["id"]
+      id1 = call_build_base_msg["id"]
+      assert_not_equal(id0, id1)
+    end
+  end
+
   sub_test_case("time") do
     def build_time(config, time, record)
       record["message"] = "Message"
