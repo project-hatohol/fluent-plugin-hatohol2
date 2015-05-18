@@ -85,7 +85,7 @@ module Fluent
     private
     def build_event(tag, time, record)
       {
-        "eventId"   => generate_event_id,
+        "eventId"   => build_id(time),
         "time"      => build_time(time),
         "type"      => build_type,
         #"status"    => "" # This field will be optional
@@ -105,11 +105,6 @@ module Fluent
     end
 
     private
-    def generate_event_id
-      1 # TODO: generate proper ID
-    end
-
-    private
     def exchange_profile
       msg = {
         "jsonrpc" => "2.0",
@@ -125,7 +120,7 @@ module Fluent
 
     def build_id(time)
       now = Time.now
-      now.to_i * 1_000_000_000 + now.nsec
+      (now.to_i * 1_000_000_000 + now.nsec).to_s
     end
 
     def build_type
