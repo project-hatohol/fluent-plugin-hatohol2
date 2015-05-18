@@ -129,7 +129,8 @@ module Fluent
     end
 
     def build_time(time)
-      Time.at(time).getutc.strftime("%Y%m%d%H%M%S")
+      utc = Time.at(time).getutc
+      utc.strftime("%Y%m%d%H%M%S") + sprintf(".%09d", utc.nsec)
     end
 
     def build_content(tag, time, record)

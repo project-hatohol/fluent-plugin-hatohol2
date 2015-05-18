@@ -68,8 +68,8 @@ class BuildMessageTest < Test::Unit::TestCase
     end
 
     def test_time
-      time = Time.utc(2015, 5, 14, 12, 50, 8)
-      assert_equal("20150514125008", build_time({}, time, {}))
+      time = Time.utc(2015, 5, 14, 12, 50, 8, 12345)
+      assert_equal("20150514125008.012345000", build_time({}, time, {}))
     end
   end
 
