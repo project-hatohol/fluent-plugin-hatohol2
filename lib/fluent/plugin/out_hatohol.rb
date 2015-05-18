@@ -74,14 +74,12 @@ module Fluent
     end
 
     def build_events(tag, time, record)
-      {
-        "jsonrpc" => "2.0",
-        "id"      => 1,
+      build_base_msg.update({
         "method"  => "updateEvents",
         "params"  => {
           "events" => [build_event(tag, time, record)]
         }
-      }
+      })
     end
 
     private
