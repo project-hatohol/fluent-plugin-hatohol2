@@ -31,7 +31,7 @@ class BuildMessageTest < Test::Unit::TestCase
   end
 
   def create_plugin(config)
-    plugin = Fluent::HatoholOutput.new
+    plugin = Fluent::Hatohol2Output.new
     plugin.configure(parse_config(config))
     plugin
   end

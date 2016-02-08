@@ -28,7 +28,7 @@ require "test-unit"
 $LOAD_PATH.unshift(lib_dir)
 
 require "fluent/test"
-require "fluent/plugin/out_hatohol"
+require "fluent/plugin/out_hatohol2"
 
 ENV["TEST_UNIT_MAX_DIFF_TARGET_STRING_SIZE"] ||= "5000"
 

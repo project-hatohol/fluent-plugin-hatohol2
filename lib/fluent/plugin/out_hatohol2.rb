@@ -18,7 +18,7 @@ require "json"
 require "bunny"
 
 module Fluent
-  class HatoholOutput < BufferedOutput
+  class Hatohol2Output < BufferedOutput
     Plugin.register_output("hatohol2", self)
 
     config_param :url, :string, :default => nil
